@@ -11,6 +11,7 @@ def fourier(x, n, w):
     K = []
     for i in range(0, w-2):
         sample = x[i * n:( i + 1) * n]
+        if(len(sample) == 0): break
         partial = np.fft.fft(sample)
         K.append(partial)
 
