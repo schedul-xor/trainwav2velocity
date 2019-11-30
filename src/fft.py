@@ -1,10 +1,22 @@
 #!/usr/bin/env python3
 # -*- coding:utf-8 -*-
-import wave
 import glob
+import wave
+import struct
+from scipy import fromstring, int16
+import numpy as np
 from pylab import *
 
-def fft(wavfile):
+def fourier(x, n, w):
+    K = []
+    for i in range(0, w-2):
+        sample = x[i * n:( i + 1) * n]
+        partial = np.fft.fft(sample)
+        K.append(partial)
+
+    return K
+
+def do_fft(wavfile):
     wr = wave.open(wavfile, "rb")
     ch = wr.getnchannels()
     width = wr.getsampwidth()
@@ -25,6 +37,15 @@ def fft(wavfile):
     print('現配列長', len(origin))
     print('サンプル配列長: ', len(data))
 
+    # ステレオ前提
+    X = np.frombuffer(data, dtype="int16")
+    left = X[::2]
+    right = X[1::2]
+
+    fft_ret = fourier(right, N, span)
+
+    print(fft_ret)
+
 args = sys.argv
 
 if len(args) < 2:
@@ -32,4 +53,4 @@ if len(args) < 2:
 else:
     waves_path = args[1]
     for p in glob.glob(waves_path):
-        fft(p)
+        do_fft(p)
