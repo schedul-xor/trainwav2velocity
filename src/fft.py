@@ -28,8 +28,8 @@ def fft(wavfile):
 args = sys.argv
 
 if len(args) < 2:
-    print("[usage] {0} <path of the input wave files>".format(args[0]))
+    print("[usage] {0} <path of the input wave files>\n example) {0} 'output/*.wav'".format(args[0]))
 else:
     waves_path = args[1]
     for p in glob.glob(waves_path):
-        print(p)
+        fft(p)
