@@ -13,4 +13,6 @@ dependencies {
     // https://mvnrepository.com/artifact/com.github.axet/TarsosDSP
     compile group: 'com.github.axet', name: 'TarsosDSP', version: '2.4-1'
     compile group: 'com.googlecode.soundlibs',name: 'mp3spi', version: '1.9.5-1'
+    // https://mvnrepository.com/artifact/com.sipgate/mp3-wav
+    compile group: 'com.sipgate', name: 'mp3-wav', version: '1.0.3'
 }
