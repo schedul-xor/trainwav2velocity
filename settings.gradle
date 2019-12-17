@@ -1,0 +1,3 @@
+rootProject.name = 'trainwav2velocity'
+include ':core'
+include ':cui-if'

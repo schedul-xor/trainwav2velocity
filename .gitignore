@@ -1,5 +1,7 @@
 *~
 .idea/*
 output/*
-
-
+.gradle
+.idea
+*.class
+**/build/

@@ -1,0 +1,22 @@
+apply plugin: 'application'
+
+sourceCompatibility = 1.8
+
+repositories {
+    mavenCentral()
+}
+
+dependencies {
+    implementation project(':core')
+    testImplementation 'junit:junit:4.12'
+    implementation "org.slf4j:slf4j-api:$slf4jVersion"
+    implementation "org.slf4j:slf4j-simple:$slf4jVersion"
+}
+
+mainClassName = "com.ogiqvo.trainwav2velocity.Main"
+run {
+    jvmArgs("-Xverify:none") // For VisualVM Profiler
+    if (project.hasProperty("args")) {
+        args project.getProperty("args").split(",")
+    }
+}

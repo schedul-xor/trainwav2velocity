@@ -1,0 +1,40 @@
+buildscript {
+    repositories {
+        google()
+        jcenter()
+    }
+    dependencies {
+        classpath 'com.android.tools.build:gradle:3.0.1'
+    }
+}
+
+
+allprojects {
+    group 'com.ogiqvo'
+    version '1.0-SNAPSHOT'
+    ext.isReleaseVersion = !version.endsWith("SNAPSHOT")
+
+    ext.slf4jVersion = "1.7.25"
+
+    // Disable Java 8 doclint
+    if (JavaVersion.current().isJava8Compatible()) {
+        tasks.withType(Javadoc) {
+            options.addStringOption('Xdoclint:none', '-quiet')
+            logging.captureStandardError LogLevel.INFO
+        }
+    }
+}
+subprojects {
+    repositories {
+        google()
+        maven { url 'https://repo.boundlessgeo.com/main' }
+        maven { url 'https://oss.sonatype.org/content/repositories/snapshots/' }
+        maven { url 'http://maven.ogiqvo.com/repositories/staging/' }
+        jcenter()
+    }
+
+    tasks.withType(JavaCompile) {
+        sourceCompatibility = JavaVersion.VERSION_1_7
+        targetCompatibility = JavaVersion.VERSION_1_7
+    }
+}
