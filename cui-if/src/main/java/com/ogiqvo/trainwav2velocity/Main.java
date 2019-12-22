@@ -43,7 +43,7 @@ public class Main implements OnsetHandler {
         Main m = new Main(audioDispatcher);
     }
 
-    static private AudioDispatcher getAudioStreamFromFilename(String filename) throws FileNotFoundException {
+    static private AudioDispatcher getAudioStreamFromFilename(String filename) throws FileNotFoundException, LineUnavailableException {
         String filenameExtension = Main.getNameWithoutExtension(new File(filename));
         InputStream rawInputStream = new FileInputStream(filename);
         TarsosDSPAudioInputStream audioStream;
@@ -62,12 +62,12 @@ public class Main implements OnsetHandler {
                 break;
         }
         AudioDispatcher adp = new AudioDispatcher(audioStream, BUFFER_SIZE, 0);
+        AudioPlayer audioPlayer = new AudioPlayer(AUDIO_FORMAT, BUFFER_SIZE);
+        adp.addAudioProcessor(audioPlayer);
         return adp;
     }
 
-    public Main(AudioDispatcher adp) throws LineUnavailableException {
-        AudioPlayer audioPlayer = new AudioPlayer(AUDIO_FORMAT, BUFFER_SIZE);
-        adp.addAudioProcessor(audioPlayer);
+    public Main(AudioDispatcher adp) {
         adp.addAudioProcessor(new PercussionOnsetDetector(SAMPLE_RATE, BUFFER_SIZE, this, PERCUSSION_SENSITIVITY, PERCUSSION_THRESHOLD));
 
         Thread t = new Thread(adp);
@@ -92,7 +92,7 @@ public class Main implements OnsetHandler {
             double bpm = 60.0 / timeDelta;
             log.info("BPM={} @ t={}", bpm, time);
         } else {
-            log.info("Found first hit");
+            log.info("Found first hit @ t={}",time);
         }
         prevTime = time;
     }
